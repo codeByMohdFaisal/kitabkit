@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { getEbookBySlug } from "@/lib/ebooks";
 import { paymentProvider } from "@/lib/payments";
-import { deliverEbook } from "@/lib/delivery";
 import { siteConfig } from "@/lib/site";
 
 type CheckoutRequest = {
@@ -46,13 +45,14 @@ export async function POST(request: Request) {
     buyerEmail: email,
   });
 
-  // NOTE: this stub delivers immediately after creating the order. A real
-  // integration must only deliver after the provider confirms payment
-  // (webhook or signature verification) — see lib/payments/razorpay.ts.
-  const delivery = await deliverEbook(ebook, email);
-
+  // Payment is not yet confirmed here — the client opens the Razorpay
+  // Checkout widget with this order, and delivery only happens after
+  // /api/checkout/verify confirms the payment signature server-side.
   return NextResponse.json({
     orderId: order.orderId,
-    downloadUrl: delivery.downloadUrl,
+    keyId: order.providerKeyId,
+    amount: order.providerOrderPayload?.amount,
+    currency: order.providerOrderPayload?.currency,
+    ebookTitle: ebook.title,
   });
 }

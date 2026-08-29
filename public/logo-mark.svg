@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="256" y2="256" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2c4c3a" />
+      <stop offset="1" stop-color="#12291f" />
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="56" fill="url(#bg)" />
+  <text
+    x="112"
+    y="182"
+    text-anchor="middle"
+    font-family="Arial, Helvetica, sans-serif"
+    font-weight="800"
+    font-size="156"
+    fill="#fbf9f4"
+  >K</text>
+  <circle cx="194" cy="190" r="20" fill="#cb6843" />
+</svg>

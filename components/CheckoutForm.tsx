@@ -2,18 +2,62 @@
 
 import { useState } from "react";
 import type { Ebook } from "@/lib/types";
-import { formatPrice } from "@/lib/site";
+import { formatPrice, siteConfig } from "@/lib/site";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
-/**
- * INTEGRATION POINT — payment checkout.
- * Today this posts to /api/checkout, which calls the stubbed
- * lib/payments/razorpay.ts and immediately "delivers" the file. Once
- * Razorpay is wired in for real, this component should open the Razorpay
- * Checkout widget with the `providerOrderPayload` the API returns, and only
- * show the success/download state after the widget reports success.
- */
+type RazorpaySuccessResponse = {
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
+};
+
+type RazorpayOptions = {
+  key: string;
+  amount: number;
+  currency: string;
+  name: string;
+  description: string;
+  order_id: string;
+  prefill: { name: string; email: string };
+  theme: { color: string };
+  handler: (response: RazorpaySuccessResponse) => void;
+  modal: { ondismiss: () => void };
+};
+
+type RazorpayInstance = {
+  open: () => void;
+  on: (event: "payment.failed", handler: (response: { error: { description: string } }) => void) => void;
+};
+
+declare global {
+  interface Window {
+    Razorpay?: new (options: RazorpayOptions) => RazorpayInstance;
+  }
+}
+
+const CHECKOUT_SCRIPT_SRC = "https://checkout.razorpay.com/v1/checkout.js";
+
+function loadRazorpayScript(): Promise<void> {
+  if (window.Razorpay) return Promise.resolve();
+
+  const existing = document.querySelector(`script[src="${CHECKOUT_SCRIPT_SRC}"]`);
+  if (existing) {
+    return new Promise((resolve, reject) => {
+      existing.addEventListener("load", () => resolve());
+      existing.addEventListener("error", () => reject(new Error("Failed to load Razorpay.")));
+    });
+  }
+
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = CHECKOUT_SCRIPT_SRC;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("Failed to load Razorpay."));
+    document.body.appendChild(script);
+  });
+}
+
 export function CheckoutForm({ ebook }: { ebook: Ebook }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,20 +71,67 @@ export function CheckoutForm({ ebook }: { ebook: Ebook }) {
     setError(null);
 
     try {
-      const res = await fetch("/api/checkout", {
+      const orderRes = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ slug: ebook.slug, name, email }),
       });
 
-      if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
+      if (!orderRes.ok) {
+        const body = await orderRes.json().catch(() => ({}));
         throw new Error(body.error ?? "Something went wrong. Please try again.");
       }
 
-      const data = await res.json();
-      setDownloadUrl(data.downloadUrl);
-      setStatus("success");
+      const order = await orderRes.json();
+      if (!order.keyId) {
+        throw new Error("Payments are not configured yet.");
+      }
+
+      await loadRazorpayScript();
+
+      const razorpay = new window.Razorpay!({
+        key: order.keyId,
+        amount: order.amount,
+        currency: order.currency,
+        name: siteConfig.name,
+        description: order.ebookTitle,
+        order_id: order.orderId,
+        prefill: { name, email },
+        theme: { color: "#1b4332" },
+        handler: async (response) => {
+          try {
+            const verifyRes = await fetch("/api/checkout/verify", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(response),
+            });
+
+            if (!verifyRes.ok) {
+              const body = await verifyRes.json().catch(() => ({}));
+              throw new Error(body.error ?? "Payment could not be verified.");
+            }
+
+            const data = await verifyRes.json();
+            setDownloadUrl(data.downloadUrl);
+            setStatus("success");
+          } catch (err) {
+            setError(err instanceof Error ? err.message : "Payment could not be verified.");
+            setStatus("error");
+          }
+        },
+        modal: {
+          ondismiss: () => {
+            setStatus((current) => (current === "submitting" ? "idle" : current));
+          },
+        },
+      });
+
+      razorpay.on("payment.failed", (response) => {
+        setError(response.error.description || "Payment failed. Please try again.");
+        setStatus("error");
+      });
+
+      razorpay.open();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
       setStatus("error");

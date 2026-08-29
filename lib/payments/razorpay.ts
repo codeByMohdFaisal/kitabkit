@@ -1,40 +1,82 @@
-import type { CreateOrderInput, CreateOrderResult, PaymentProvider } from "./types";
+import crypto from "node:crypto";
+import Razorpay from "razorpay";
+import type {
+  CreateOrderInput,
+  CreateOrderResult,
+  PaymentProvider,
+  VerifiedOrder,
+  VerifyPaymentInput,
+} from "./types";
 
-/**
- * INTEGRATION POINT — Razorpay (UPI-first, the natural choice for Indian buyers).
- *
- * To go live:
- *  1. Set RAZORPAY_KEY_ID / RAZORPAY_KEY_SECRET (server) and
- *     NEXT_PUBLIC_RAZORPAY_KEY_ID (client) — see .env.example.
- *  2. `npm install razorpay` and replace the body of createOrder below with
- *     a real `razorpay.orders.create(...)` call.
- *  3. On the client, load Razorpay's Checkout.js and open it with the
- *     `providerOrderPayload` this returns.
- *  4. Verify the payment signature in a webhook / server route before
- *     calling into `lib/delivery` — never deliver on the client's say-so.
- *
- * Until then, this stub simulates a successful order so the checkout UI and
- * post-purchase delivery flow can be built and tested end-to-end.
- */
+function getClient(): Razorpay {
+  const key_id = process.env.RAZORPAY_KEY_ID;
+  const key_secret = process.env.RAZORPAY_KEY_SECRET;
+  if (!key_id || !key_secret) {
+    throw new Error(
+      "RAZORPAY_KEY_ID / RAZORPAY_KEY_SECRET are not set. See .env.example."
+    );
+  }
+  return new Razorpay({ key_id, key_secret });
+}
+
 export class RazorpayProvider implements PaymentProvider {
   async createOrder(input: CreateOrderInput): Promise<CreateOrderResult> {
-    if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
-      console.warn(
-        "[payments/razorpay] RAZORPAY_KEY_ID/SECRET not set — using a simulated order. " +
-          "See lib/payments/razorpay.ts for how to go live."
-      );
-    }
+    const client = getClient();
 
-    const orderId = `simulated_${input.ebookSlug}_${Date.now()}`;
+    const order = await client.orders.create({
+      amount: Math.round(input.amount * 100), // paise
+      currency: input.currency,
+      receipt: `${input.ebookSlug}_${Date.now()}`,
+      // Trusted source of truth for what was actually purchased — read back
+      // in verifyPayment rather than trusting anything the client sends then.
+      notes: {
+        ebookSlug: input.ebookSlug,
+        buyerEmail: input.buyerEmail,
+      },
+    });
 
     return {
-      orderId,
+      orderId: order.id,
       providerKeyId: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
       providerOrderPayload: {
-        amount: input.amount * 100, // paise
-        currency: input.currency,
-        receipt: orderId,
+        amount: order.amount,
+        currency: order.currency,
       },
     };
+  }
+
+  async verifyPayment(input: VerifyPaymentInput): Promise<VerifiedOrder | null> {
+    const key_secret = process.env.RAZORPAY_KEY_SECRET;
+    if (!key_secret) {
+      throw new Error("RAZORPAY_KEY_SECRET is not set. See .env.example.");
+    }
+
+    const expected = crypto
+      .createHmac("sha256", key_secret)
+      .update(`${input.orderId}|${input.paymentId}`)
+      .digest("hex");
+
+    const expectedBuf = Buffer.from(expected, "hex");
+    const actualBuf = Buffer.from(input.signature, "hex");
+    if (
+      expectedBuf.length !== actualBuf.length ||
+      !crypto.timingSafeEqual(expectedBuf, actualBuf)
+    ) {
+      return null;
+    }
+
+    const client = getClient();
+    const order = await client.orders.fetch(input.orderId);
+    if (order.status !== "paid") {
+      return null;
+    }
+
+    const ebookSlug = order.notes?.ebookSlug;
+    const buyerEmail = order.notes?.buyerEmail;
+    if (typeof ebookSlug !== "string" || typeof buyerEmail !== "string") {
+      return null;
+    }
+
+    return { ebookSlug, buyerEmail };
   }
 }

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const navLinks = [
@@ -10,7 +11,8 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-forest-100 bg-cream/95 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
-        <Link href="/" className="font-display text-lg font-bold text-forest-900">
+        <Link href="/" className="flex items-center gap-2 font-display text-lg font-bold text-forest-900">
+          <Image src="/logo-mark.svg" alt="" width={32} height={32} className="rounded-md" priority />
           Kitaab <span className="text-terracotta-600">Kit</span>
         </Link>
         <nav aria-label="Primary" className="flex items-center gap-1 sm:gap-2">
