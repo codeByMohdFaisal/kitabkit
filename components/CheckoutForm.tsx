@@ -63,6 +63,7 @@ export function CheckoutForm({ ebook }: { ebook: Ebook }) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [emailSent, setEmailSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -113,6 +114,7 @@ export function CheckoutForm({ ebook }: { ebook: Ebook }) {
 
             const data = await verifyRes.json();
             setDownloadUrl(data.downloadUrl);
+            setEmailSent(Boolean(data.emailSent));
             setStatus("success");
           } catch (err) {
             setError(err instanceof Error ? err.message : "Payment could not be verified.");
@@ -143,7 +145,9 @@ export function CheckoutForm({ ebook }: { ebook: Ebook }) {
       <div className="rounded-2xl border border-forest-200 bg-forest-50 p-6 text-center">
         <p className="font-display text-lg font-semibold text-forest-900">You&rsquo;re all set!</p>
         <p className="mt-1 text-sm text-ink/70">
-          Your download is ready below, and a copy has been sent to {email}.
+          {emailSent
+            ? `Your download is ready below, and a copy has been sent to ${email}.`
+            : "Your download is ready below."}
         </p>
         <a
           href={downloadUrl}

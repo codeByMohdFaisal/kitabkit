@@ -47,5 +47,8 @@ export async function POST(request: Request) {
 
   const delivery = await deliverEbook(ebook, verified.buyerEmail);
 
-  return NextResponse.json({ downloadUrl: delivery.downloadUrl });
+  return NextResponse.json({
+    downloadUrl: delivery.downloadUrl,
+    emailSent: delivery.emailSent,
+  });
 }
