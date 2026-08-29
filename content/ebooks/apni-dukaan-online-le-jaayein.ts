@@ -32,7 +32,7 @@ Zyada tar guides bataati hain *kya* karna hai. Yeh guide bataati hai *kaise*, sa
   coverImage: "/covers/apni-dukaan-online-le-jaayein.svg",
   coverImageAlt:
     "Apni Dukaan Online Le Jaayein ka cover — Indian shopkeepers ke liye green aur terracotta implementation-kit guide",
-  price: 199,
+  price: 9,
   currency: "INR",
   language: "hi-latn",
   languageGroup: "shop-online-kit",
