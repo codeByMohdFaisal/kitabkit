@@ -1,0 +1,9 @@
+<svg width="600" height="800" viewBox="0 0 600 800" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title">
+  <title id="title">More guides coming soon</title>
+  <rect width="600" height="800" fill="#e9efe4"/>
+  <rect x="0" y="0" width="600" height="800" fill="none" stroke="#b6cbaa" stroke-width="4" stroke-dasharray="14 10"/>
+  <circle cx="300" cy="330" r="54" fill="none" stroke="#6b8f72" stroke-width="4"/>
+  <path d="M300 300 v34 l24 14" fill="none" stroke="#6b8f72" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="300" y="470" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#445c49">Coming Soon</text>
+  <text x="300" y="505" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#6b8f72">New guide in the works</text>
+</svg>
