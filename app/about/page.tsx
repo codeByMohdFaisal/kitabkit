@@ -69,10 +69,10 @@ export default function AboutPage() {
         </p>
       </div>
 
-      <div className="mt-10 flex flex-wrap gap-3">
+      <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
         <Link
           href="/ebooks"
-          className="rounded-lg bg-forest-800 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-forest-700"
+          className="w-full rounded-lg bg-forest-800 px-6 py-3 text-center text-sm font-semibold text-white shadow-sm transition-colors hover:bg-forest-700 sm:w-auto"
         >
           Browse our guides
         </Link>
@@ -80,7 +80,7 @@ export default function AboutPage() {
           href={whatsappLink(`Hi! I'd like to know more about ${siteConfig.name}.`)}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded-lg border border-forest-200 bg-white px-6 py-3 text-sm font-semibold text-forest-800 transition-colors hover:bg-forest-50"
+          className="w-full rounded-lg border border-forest-200 bg-white px-6 py-3 text-center text-sm font-semibold text-forest-800 transition-colors hover:bg-forest-50 sm:w-auto"
         >
           Chat with us on WhatsApp
         </a>

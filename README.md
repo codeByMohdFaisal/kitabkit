@@ -1,4 +1,4 @@
-# Kitaab Kit
+# Kitab Kit
 
 A general-purpose multi-ebook catalog and sales site for practical,
 implementation-kit ebooks aimed at Indian readers. Built with Next.js (App

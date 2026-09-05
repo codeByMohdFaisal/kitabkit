@@ -1,10 +1,10 @@
 export const siteConfig = {
-  name: "Kitaab Kit",
-  shortName: "Kitaab Kit",
+  name: "Kitab Kit",
+  shortName: "Kitab Kit",
   description:
     "Practical, low-cost implementation-kit ebooks for Indian readers — step-by-step guides you can actually act on, not just read.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-  author: "Kitaab Kit",
+  author: "Kitab Kit",
   whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "917055912140",
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "mohdfaisal2140@gmail.com",
   /** Master switch for the buy/checkout flow. Off until Razorpay is live —

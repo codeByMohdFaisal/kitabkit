@@ -40,7 +40,7 @@ export default async function OgImage({ params }: { params: Promise<{ slug: stri
             textTransform: "uppercase",
           }}
         >
-          Kitaab Kit
+          Kitab Kit
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 900 }}>
           <div style={{ display: "flex", fontSize: 56, fontWeight: 700, lineHeight: 1.15 }}>

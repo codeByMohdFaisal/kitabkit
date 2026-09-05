@@ -33,10 +33,10 @@ export default function HomePage() {
               checklists, templates, and action plans, built for Indian readers who
               want results, not more reading. Priced fairly, made to be used.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 href="/ebooks"
-                className="rounded-lg bg-forest-800 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-forest-700"
+                className="w-full rounded-lg bg-forest-800 px-6 py-3 text-center text-sm font-semibold text-white shadow-sm transition-colors hover:bg-forest-700 sm:w-auto"
               >
                 Browse all guides
               </Link>
@@ -44,7 +44,7 @@ export default function HomePage() {
                 href={whatsappLink("Hi! I have a question about your ebooks.")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-lg border border-forest-200 bg-white px-6 py-3 text-sm font-semibold text-forest-800 transition-colors hover:bg-forest-50"
+                className="w-full rounded-lg border border-forest-200 bg-white px-6 py-3 text-center text-sm font-semibold text-forest-800 transition-colors hover:bg-forest-50 sm:w-auto"
               >
                 Ask us on WhatsApp
               </a>
