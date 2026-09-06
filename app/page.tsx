@@ -58,33 +58,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-        <div className="mb-8 flex items-end justify-between gap-4">
-          <div>
-            <h2 className="font-display text-2xl font-bold text-forest-900 sm:text-3xl">
-              For your business
-            </h2>
-            <p className="mt-1 text-sm text-ink/70">
-              Implementation kits for local shop owners and small business teams.
-            </p>
-          </div>
-          <Link href="/ebooks" className="hidden shrink-0 text-sm font-semibold text-terracotta-600 hover:text-terracotta-700 sm:inline">
-            View full catalog →
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {businessEbooks.map((ebook, i) => (
-            <EbookCard key={ebook.slug} ebook={ebook} priority={i === 0} />
-          ))}
-          {Array.from({ length: businessPlaceholders }).map((_, i) => (
-            <ComingSoonCard key={`business-placeholder-${i}`} />
-          ))}
-        </div>
-      </section>
-
       {familyEbooks.length > 0 && (
-        <section className="mx-auto max-w-6xl px-4 pb-14 sm:px-6">
+        <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
           <div className="mb-8 flex items-end justify-between gap-4">
             <div>
               <h2 className="font-display text-2xl font-bold text-forest-900 sm:text-3xl">
@@ -103,8 +78,8 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {familyEbooks.map((ebook) => (
-              <EbookCard key={ebook.slug} ebook={ebook} />
+            {familyEbooks.map((ebook, i) => (
+              <EbookCard key={ebook.slug} ebook={ebook} priority={i === 0} />
             ))}
             {Array.from({ length: familyPlaceholders }).map((_, i) => (
               <ComingSoonCard key={`family-placeholder-${i}`} />
@@ -112,6 +87,31 @@ export default function HomePage() {
           </div>
         </section>
       )}
+
+      <section className="mx-auto max-w-6xl px-4 pb-14 sm:px-6">
+        <div className="mb-8 flex items-end justify-between gap-4">
+          <div>
+            <h2 className="font-display text-2xl font-bold text-forest-900 sm:text-3xl">
+              For your business
+            </h2>
+            <p className="mt-1 text-sm text-ink/70">
+              Implementation kits for local shop owners and small business teams.
+            </p>
+          </div>
+          <Link href="/ebooks" className="hidden shrink-0 text-sm font-semibold text-terracotta-600 hover:text-terracotta-700 sm:inline">
+            View full catalog →
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {businessEbooks.map((ebook) => (
+            <EbookCard key={ebook.slug} ebook={ebook} />
+          ))}
+          {Array.from({ length: businessPlaceholders }).map((_, i) => (
+            <ComingSoonCard key={`business-placeholder-${i}`} />
+          ))}
+        </div>
+      </section>
 
       <section className="border-t border-forest-100 bg-sage-50">
         <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">

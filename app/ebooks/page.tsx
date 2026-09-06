@@ -35,17 +35,8 @@ export default function EbooksCatalogPage() {
         </p>
       </header>
 
-      <section aria-labelledby="business-heading" className="mb-14">
-        <h2 id="business-heading" className="font-display text-xl font-bold text-forest-900">
-          For your business
-        </h2>
-        <div className="mt-6">
-          <EbookFilterGrid ebooks={businessEbooks} categories={businessCategories} languages={languages} />
-        </div>
-      </section>
-
       {familyEbooks.length > 0 && (
-        <section aria-labelledby="family-heading">
+        <section aria-labelledby="family-heading" className="mb-14">
           <h2 id="family-heading" className="font-display text-xl font-bold text-forest-900">
             For your family
           </h2>
@@ -56,6 +47,15 @@ export default function EbooksCatalogPage() {
           </div>
         </section>
       )}
+
+      <section aria-labelledby="business-heading">
+        <h2 id="business-heading" className="font-display text-xl font-bold text-forest-900">
+          For your business
+        </h2>
+        <div className="mt-6">
+          <EbookFilterGrid ebooks={businessEbooks} categories={businessCategories} languages={languages} />
+        </div>
+      </section>
     </div>
   );
 }
