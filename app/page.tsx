@@ -11,11 +11,16 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-const MIN_GRID_SIZE = 4;
+const FAMILY_LEARNING_CATEGORY = "family-learning";
+const BUSINESS_MIN_GRID_SIZE = 4;
+const FAMILY_MIN_GRID_SIZE = 2;
 
 export default function HomePage() {
   const ebooks = getAllEbooks();
-  const placeholderCount = Math.max(0, MIN_GRID_SIZE - ebooks.length);
+  const businessEbooks = ebooks.filter((e) => !e.category.includes(FAMILY_LEARNING_CATEGORY));
+  const familyEbooks = ebooks.filter((e) => e.category.includes(FAMILY_LEARNING_CATEGORY));
+  const businessPlaceholders = Math.max(0, BUSINESS_MIN_GRID_SIZE - businessEbooks.length);
+  const familyPlaceholders = Math.max(0, FAMILY_MIN_GRID_SIZE - familyEbooks.length);
 
   return (
     <>
@@ -57,10 +62,10 @@ export default function HomePage() {
         <div className="mb-8 flex items-end justify-between gap-4">
           <div>
             <h2 className="font-display text-2xl font-bold text-forest-900 sm:text-3xl">
-              Available guides
+              For your business
             </h2>
             <p className="mt-1 text-sm text-ink/70">
-              We publish new implementation kits regularly — this catalog grows over time.
+              Implementation kits for local shop owners and small business teams.
             </p>
           </div>
           <Link href="/ebooks" className="hidden shrink-0 text-sm font-semibold text-terracotta-600 hover:text-terracotta-700 sm:inline">
@@ -69,14 +74,44 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {ebooks.map((ebook, i) => (
+          {businessEbooks.map((ebook, i) => (
             <EbookCard key={ebook.slug} ebook={ebook} priority={i === 0} />
           ))}
-          {Array.from({ length: placeholderCount }).map((_, i) => (
-            <ComingSoonCard key={`placeholder-${i}`} />
+          {Array.from({ length: businessPlaceholders }).map((_, i) => (
+            <ComingSoonCard key={`business-placeholder-${i}`} />
           ))}
         </div>
       </section>
+
+      {familyEbooks.length > 0 && (
+        <section className="mx-auto max-w-6xl px-4 pb-14 sm:px-6">
+          <div className="mb-8 flex items-end justify-between gap-4">
+            <div>
+              <h2 className="font-display text-2xl font-bold text-forest-900 sm:text-3xl">
+                For your family
+              </h2>
+              <p className="mt-1 text-sm text-ink/70">
+                Screen-free learning and activity workbooks for parents and young children.
+              </p>
+            </div>
+            <Link
+              href="/ebooks/category/family-learning"
+              className="hidden shrink-0 text-sm font-semibold text-terracotta-600 hover:text-terracotta-700 sm:inline"
+            >
+              View all →
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {familyEbooks.map((ebook) => (
+              <EbookCard key={ebook.slug} ebook={ebook} />
+            ))}
+            {Array.from({ length: familyPlaceholders }).map((_, i) => (
+              <ComingSoonCard key={`family-placeholder-${i}`} />
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="border-t border-forest-100 bg-sage-50">
         <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">

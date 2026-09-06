@@ -34,4 +34,10 @@ export const categories: CategoryMeta[] = [
     description:
       "Foundational operations, pricing, and planning guides for small business owners.",
   },
+  {
+    slug: "family-learning",
+    label: "Family & Learning",
+    description:
+      "Screen-free learning and activity workbooks for parents and young children.",
+  },
 ];

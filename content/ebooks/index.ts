@@ -1,6 +1,7 @@
 import type { Ebook } from "@/lib/types";
 import { takeYourLocalShopOnline } from "./take-your-local-shop-online";
 import { apniDukaanOnlineLeJaayein } from "./apni-dukaan-online-le-jaayein";
+import { thirtyDayScreenFreeLearningWorkbook } from "./30-day-screen-free-learning-workbook";
 
 /**
  * Registry of every published ebook. This is the ONLY file that needs a new
@@ -11,4 +12,5 @@ import { apniDukaanOnlineLeJaayein } from "./apni-dukaan-online-le-jaayein";
 export const allEbooks: Ebook[] = [
   takeYourLocalShopOnline,
   apniDukaanOnlineLeJaayein,
+  thirtyDayScreenFreeLearningWorkbook,
 ];

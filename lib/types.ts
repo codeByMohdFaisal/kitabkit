@@ -20,6 +20,11 @@ export type Testimonial = {
   rating?: 1 | 2 | 3 | 4 | 5;
 };
 
+export type PreviewImage = {
+  src: string;
+  alt: string;
+};
+
 export type Ebook = {
   /** URL segment, e.g. /ebooks/take-your-local-shop-online */
   slug: string;
@@ -49,6 +54,27 @@ export type Ebook = {
   featured?: boolean;
   faqs: FaqItem[];
   testimonials: Testimonial[];
+
+  /** Which detail-page layout to render — see app/ebooks/[slug]/page.tsx.
+   *  Defaults to "guide" (the original implementation-kit layout) when unset. */
+  kind?: "guide" | "workbook";
+  /** Shown under the title in the workbook hero. */
+  subtitle?: string;
+  /** e.g. "Ages 3–5" — shown as a badge in the workbook hero. */
+  ageRange?: string;
+  /** e.g. "Printable PDF · 36 pages · A4" — shown in the workbook hero. */
+  format?: string;
+  /** One-line parent/reader pain point, shown as a callout on the workbook page. */
+  problemStatement?: string;
+  /** "Why this instead of X" — short differentiation points on the workbook page. */
+  whyPoints?: string[];
+  /** Skills/topics covered, shown as a chip list on the workbook page. */
+  skills?: string[];
+  /** Sample page images for the workbook's tap-to-enlarge preview gallery. */
+  previewImages?: PreviewImage[];
+  /** Overrides the auto-generated <title>/description for this product's page. */
+  seoTitle?: string;
+  seoDescription?: string;
 };
 
 export type CategoryMeta = {

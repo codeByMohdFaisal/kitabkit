@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Ebook } from "@/lib/types";
+import { getCategoryBySlug } from "@/lib/ebooks";
 import { PriceTag } from "./PriceTag";
-import { LanguageBadge } from "./Badges";
+import { LanguageBadge, CategoryPill } from "./Badges";
 
 export function EbookCard({
   ebook,
@@ -14,6 +15,8 @@ export function EbookCard({
   /** Set to "h2" when the card grid sits directly under an h1 with no intermediate heading. */
   headingLevel?: "h2" | "h3";
 }) {
+  const category = ebook.category[0] ? getCategoryBySlug(ebook.category[0]) : undefined;
+
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-forest-100 bg-white shadow-sm transition-shadow hover:shadow-md">
       <Link
@@ -31,6 +34,7 @@ export function EbookCard({
       </Link>
       <div className="flex flex-1 flex-col gap-3 p-5">
         <div className="flex flex-wrap items-center gap-2">
+          {category && <CategoryPill label={category.label} href={`/ebooks/category/${category.slug}`} />}
           <LanguageBadge code={ebook.language} />
         </div>
         <Heading className="font-display text-lg font-semibold leading-snug text-forest-900">
