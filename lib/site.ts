@@ -6,7 +6,7 @@ export const siteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   author: "Kitab Kit",
   whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "917055912140",
-  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "mohdfaisal2140@gmail.com",
+  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "kitabkit.shop@gmail.com",
   /** Master switch for the buy/checkout flow. Off until Razorpay is live —
    *  see .env.example. Flip with NEXT_PUBLIC_PAYMENTS_ENABLED=true, no code change needed. */
   paymentsEnabled: process.env.NEXT_PUBLIC_PAYMENTS_ENABLED === "true",
