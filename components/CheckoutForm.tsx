@@ -27,12 +27,16 @@ type RazorpayOptions = {
 
 type RazorpayInstance = {
   open: () => void;
-  on: (event: "payment.failed", handler: (response: { error: { description: string } }) => void) => void;
+  on: (
+    event: "payment.failed",
+    handler: (response: { error: { description: string } }) => void,
+  ) => void;
 };
 
 declare global {
   interface Window {
     Razorpay?: new (options: RazorpayOptions) => RazorpayInstance;
+    fbq?: (...args: any[]) => void;
   }
 }
 
@@ -41,11 +45,15 @@ const CHECKOUT_SCRIPT_SRC = "https://checkout.razorpay.com/v1/checkout.js";
 function loadRazorpayScript(): Promise<void> {
   if (window.Razorpay) return Promise.resolve();
 
-  const existing = document.querySelector(`script[src="${CHECKOUT_SCRIPT_SRC}"]`);
+  const existing = document.querySelector(
+    `script[src="${CHECKOUT_SCRIPT_SRC}"]`,
+  );
   if (existing) {
     return new Promise((resolve, reject) => {
       existing.addEventListener("load", () => resolve());
-      existing.addEventListener("error", () => reject(new Error("Failed to load Razorpay.")));
+      existing.addEventListener("error", () =>
+        reject(new Error("Failed to load Razorpay.")),
+      );
     });
   }
 
@@ -80,7 +88,9 @@ export function CheckoutForm({ ebook }: { ebook: Ebook }) {
 
       if (!orderRes.ok) {
         const body = await orderRes.json().catch(() => ({}));
-        throw new Error(body.error ?? "Something went wrong. Please try again.");
+        throw new Error(
+          body.error ?? "Something went wrong. Please try again.",
+        );
       }
 
       const order = await orderRes.json();
@@ -116,20 +126,37 @@ export function CheckoutForm({ ebook }: { ebook: Ebook }) {
             setDownloadUrl(data.downloadUrl);
             setEmailSent(Boolean(data.emailSent));
             setStatus("success");
+            if (window.fbq) {
+              window.fbq("track", "Purchase", {
+                value: order.amount / 100,
+                currency: order.currency,
+                content_ids: [ebook.slug],
+                content_name: ebook.title,
+                content_type: "product",
+              });
+            }
           } catch (err) {
-            setError(err instanceof Error ? err.message : "Payment could not be verified.");
+            setError(
+              err instanceof Error
+                ? err.message
+                : "Payment could not be verified.",
+            );
             setStatus("error");
           }
         },
         modal: {
           ondismiss: () => {
-            setStatus((current) => (current === "submitting" ? "idle" : current));
+            setStatus((current) =>
+              current === "submitting" ? "idle" : current,
+            );
           },
         },
       });
 
       razorpay.on("payment.failed", (response) => {
-        setError(response.error.description || "Payment failed. Please try again.");
+        setError(
+          response.error.description || "Payment failed. Please try again.",
+        );
         setStatus("error");
       });
 
@@ -143,7 +170,9 @@ export function CheckoutForm({ ebook }: { ebook: Ebook }) {
   if (status === "success" && downloadUrl) {
     return (
       <div className="rounded-2xl border border-forest-200 bg-forest-50 p-6 text-center">
-        <p className="font-display text-lg font-semibold text-forest-900">You&rsquo;re all set!</p>
+        <p className="font-display text-lg font-semibold text-forest-900">
+          You&rsquo;re all set!
+        </p>
         <p className="mt-1 text-sm text-ink/70">
           {emailSent
             ? `Your download is ready below, and a copy has been sent to ${email}.`
@@ -163,7 +192,10 @@ export function CheckoutForm({ ebook }: { ebook: Ebook }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label htmlFor="checkout-name" className="block text-sm font-medium text-forest-900">
+        <label
+          htmlFor="checkout-name"
+          className="block text-sm font-medium text-forest-900"
+        >
           Full name
         </label>
         <input
@@ -176,7 +208,10 @@ export function CheckoutForm({ ebook }: { ebook: Ebook }) {
         />
       </div>
       <div>
-        <label htmlFor="checkout-email" className="block text-sm font-medium text-forest-900">
+        <label
+          htmlFor="checkout-email"
+          className="block text-sm font-medium text-forest-900"
+        >
           Email — we&rsquo;ll send your download link here
         </label>
         <input
@@ -201,7 +236,8 @@ export function CheckoutForm({ ebook }: { ebook: Ebook }) {
           : `Pay ${formatPrice(ebook.price, ebook.currency)} via UPI`}
       </button>
       <p className="text-center text-xs text-ink/70">
-        Payments are processed securely via Razorpay. UPI, cards, and net banking supported.
+        Payments are processed securely via Razorpay. UPI, cards, and net
+        banking supported.
       </p>
     </form>
   );
