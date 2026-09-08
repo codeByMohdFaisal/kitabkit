@@ -32,7 +32,7 @@ Most guides tell you *what* to do. This one shows you exactly *how*, with templa
   coverImage: "/covers/take-your-local-shop-online.svg",
   coverImageAlt:
     "Cover of Take Your Local Shop Online — a green and terracotta implementation-kit guide for Indian shopkeepers",
-  price: 9,
+  price: 99,
   currency: "INR",
   language: "en",
   languageGroup: "shop-online-kit",
