@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
+import { MetaPixel } from "@/components/MetaPixel";
 import { siteConfig } from "@/lib/site";
 
 const inter = Inter({
@@ -37,8 +38,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} ${poppins.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`${inter.variable} ${poppins.variable} h-full antialiased`}
+    >
       <body className="flex min-h-full flex-col">
+        <MetaPixel />
         <a href="#main-content" className="skip-link">
           Skip to content
         </a>
