@@ -2,7 +2,7 @@
 
 import Script from "next/script";
 import { useEffect } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 declare global {
   interface Window {
@@ -15,7 +15,6 @@ const PIXEL_ID = "1734480751192777";
 
 export function MetaPixel() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     const trackPageView = () => {
@@ -24,11 +23,10 @@ export function MetaPixel() {
       }
     };
 
-    // Give the Meta Pixel script a moment to initialize.
     const timeout = setTimeout(trackPageView, 300);
 
     return () => clearTimeout(timeout);
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   return (
     <Script id="meta-pixel" strategy="afterInteractive">
