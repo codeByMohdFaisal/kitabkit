@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getAllEbooks, getCategoryBySlug, getEbookBySlug, getLanguageSiblings } from "@/lib/ebooks";
+import {
+  getAllEbooks,
+  getCategoryBySlug,
+  getEbookBySlug,
+  getLanguageSiblings,
+} from "@/lib/ebooks";
 import { siteConfig } from "@/lib/site";
 import { JsonLd } from "@/components/JsonLd";
 import { GuideDetail } from "@/components/GuideDetail";
 import { WorkbookDetail } from "@/components/WorkbookDetail";
+import { TrackViewContent } from "@/components/TrackViewContent";
 
 export const revalidate = 3600;
 
@@ -76,8 +82,17 @@ export default async function EbookDetailPage({ params }: Props) {
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
       <JsonLd data={jsonLd} />
 
+      <TrackViewContent
+        slug={ebook.slug}
+        title={ebook.title}
+        price={ebook.price}
+        currency={ebook.currency}
+      />
+
       <nav aria-label="Breadcrumb" className="mb-8 text-sm text-ink/70">
-        <Link href="/ebooks" className="hover:text-forest-700">All guides</Link>
+        <Link href="/ebooks" className="hover:text-forest-700">
+          All guides
+        </Link>
         {" / "}
         <span className="text-ink/80">{ebook.title}</span>
       </nav>
@@ -85,7 +100,11 @@ export default async function EbookDetailPage({ params }: Props) {
       {ebook.kind === "workbook" ? (
         <WorkbookDetail ebook={ebook} categories={categories} />
       ) : (
-        <GuideDetail ebook={ebook} siblings={siblings} categories={categories} />
+        <GuideDetail
+          ebook={ebook}
+          siblings={siblings}
+          categories={categories}
+        />
       )}
     </div>
   );

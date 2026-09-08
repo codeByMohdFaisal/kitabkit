@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { Ebook } from "@/lib/types";
 import { formatPrice, siteConfig } from "@/lib/site";
 
@@ -74,10 +74,23 @@ export function CheckoutForm({ ebook }: { ebook: Ebook }) {
   const [emailSent, setEmailSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const checkoutTracked = useRef(false);
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus("submitting");
     setError(null);
+    if (!checkoutTracked.current && window.fbq) {
+      window.fbq("track", "InitiateCheckout", {
+        content_ids: [ebook.slug],
+        content_name: ebook.title,
+        content_type: "product",
+        value: ebook.price,
+        currency: ebook.currency,
+      });
+
+      checkoutTracked.current = true;
+    }
 
     try {
       const orderRes = await fetch("/api/checkout", {
