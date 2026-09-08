@@ -32,7 +32,7 @@ Zyada tar guides bataati hain *kya* karna hai. Yeh guide bataati hai *kaise*, sa
   coverImage: "/covers/apni-dukaan-online-le-jaayein.svg",
   coverImageAlt:
     "Apni Dukaan Online Le Jaayein ka cover — Indian shopkeepers ke liye green aur terracotta implementation-kit guide",
-  price: 99,
+  price: 9,
   currency: "INR",
   language: "hi-latn",
   languageGroup: "shop-online-kit",
@@ -61,7 +61,8 @@ Zyada tar guides bataati hain *kya* karna hai. Yeh guide bataati hai *kaise*, sa
   featured: true,
   faqs: [
     {
-      question: "Mujhe technology ki zyada samajh nahi hai. Kya main phir bhi follow kar sakta/sakti hoon?",
+      question:
+        "Mujhe technology ki zyada samajh nahi hai. Kya main phir bhi follow kar sakta/sakti hoon?",
       answer:
         "Bilkul. Har step pehli baar karne waalon ke liye likha gaya hai, step-by-step walkthroughs ke saath — koi prior digital marketing knowledge zaroori nahi.",
     },
@@ -73,7 +74,7 @@ Zyada tar guides bataati hain *kya* karna hai. Yeh guide bataati hai *kaise*, sa
     {
       question: "Kya iska English version bhi hai?",
       answer:
-        "Haan — yehi guide English mein \"Take Your Local Shop Online\" ke naam se available hai. Is page par language switcher se woh edition dekhein.",
+        'Haan — yehi guide English mein "Take Your Local Shop Online" ke naam se available hai. Is page par language switcher se woh edition dekhein.',
     },
     {
       question: "Kharidne ke baad file kaise milegi?",

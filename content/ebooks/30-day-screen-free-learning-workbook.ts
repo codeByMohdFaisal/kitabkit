@@ -14,7 +14,7 @@ You don't need to be a teacher. Just show up for 15–20 minutes a day — we've
   coverImage: "/covers/30-day-screen-free-learning-workbook.jpg",
   coverImageAlt:
     "Cover of the 30-Day Screen-Free Learning & Activity Workbook — a colourful jungle-themed activity book for children ages 3 to 5",
-  price: 99,
+  price: 9,
   currency: "INR",
   language: "en",
   languageGroup: "screen-free-learning-workbook",
@@ -85,6 +85,6 @@ You don't need to be a teacher. Just show up for 15–20 minutes a day — we've
   ],
   seoTitle: "30-Day Screen-Free Activity Workbook for Kids 3-5",
   seoDescription:
-    "Tired of screen-time battles? Give your 3–5 year old 30 days of ready-made, no-screen activities — just print and go. Instant download, ₹99.",
+    "Tired of screen-time battles? Give your 3–5 year old 30 days of ready-made, no-screen activities — just print and go. Instant download, ₹9.",
   testimonials: [],
 };

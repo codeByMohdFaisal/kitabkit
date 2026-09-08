@@ -32,7 +32,7 @@ Most guides tell you *what* to do. This one shows you exactly *how*, with templa
   coverImage: "/covers/take-your-local-shop-online.svg",
   coverImageAlt:
     "Cover of Take Your Local Shop Online — a green and terracotta implementation-kit guide for Indian shopkeepers",
-  price: 99,
+  price: 9,
   currency: "INR",
   language: "en",
   languageGroup: "shop-online-kit",
@@ -73,7 +73,7 @@ Most guides tell you *what* to do. This one shows you exactly *how*, with templa
     {
       question: "Is there a Hindi/Hinglish version?",
       answer:
-        "Yes — the same guide is available in Hinglish as \"Apni Dukaan Online Le Jaayein.\" Use the language switcher on this page to view that edition.",
+        'Yes — the same guide is available in Hinglish as "Apni Dukaan Online Le Jaayein." Use the language switcher on this page to view that edition.',
     },
     {
       question: "How do I get the file after buying?",
