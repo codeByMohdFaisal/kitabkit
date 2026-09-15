@@ -55,7 +55,11 @@ export default async function CheckoutPage({
       <h1 className="font-display text-3xl font-bold text-forest-900">Checkout</h1>
 
       <div className="mt-8 flex flex-col gap-8">
-        <div className="order-2 grid gap-8 sm:order-1 sm:grid-cols-[100px_1fr] sm:items-center rounded-2xl border border-forest-100 bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-forest-100 bg-white p-6 shadow-sm sm:p-8">
+          <CheckoutForm ebook={ebook} />
+        </div>
+
+        <div className="grid gap-8 sm:grid-cols-[100px_1fr] sm:items-center rounded-2xl border border-forest-100 bg-white p-5 shadow-sm">
           <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-forest-800">
             <Image
               src={ebook.coverImage}
@@ -80,10 +84,6 @@ export default async function CheckoutPage({
               View book details ↗
             </Link>
           </div>
-        </div>
-
-        <div className="order-1 rounded-2xl border border-forest-100 bg-white p-6 shadow-sm sm:order-2 sm:p-8">
-          <CheckoutForm ebook={ebook} />
         </div>
       </div>
     </div>
