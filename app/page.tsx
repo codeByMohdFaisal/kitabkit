@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 const FAMILY_LEARNING_CATEGORY = "family-learning";
-const BUSINESS_MIN_GRID_SIZE = 4;
+const BUSINESS_MIN_GRID_SIZE = 2;
 const FAMILY_MIN_GRID_SIZE = 2;
 
 export default function HomePage() {

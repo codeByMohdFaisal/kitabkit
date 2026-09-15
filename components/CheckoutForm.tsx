@@ -242,11 +242,29 @@ export function CheckoutForm({ ebook }: { ebook: Ebook }) {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="w-full rounded-lg bg-terracotta-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-terracotta-700 disabled:cursor-not-allowed disabled:opacity-60"
+        className="flex w-full items-center justify-center gap-2 rounded-lg bg-terracotta-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-terracotta-700 disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {status === "submitting"
-          ? "Processing…"
-          : `Pay ${formatPrice(ebook.price, ebook.currency)} via UPI`}
+        {status === "submitting" ? (
+          "Processing…"
+        ) : (
+          <>
+            <svg
+              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="5" y="11" width="14" height="9" rx="1.5" />
+              <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+            </svg>
+            {`Pay ${formatPrice(ebook.price, ebook.currency)} via UPI`}
+          </>
+        )}
       </button>
       <p className="text-center text-xs text-ink/70">
         Payments are processed securely via Razorpay. UPI, cards, and net

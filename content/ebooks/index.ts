@@ -1,7 +1,8 @@
 import type { Ebook } from "@/lib/types";
-import { takeYourLocalShopOnline } from "./take-your-local-shop-online";
-import { apniDukaanOnlineLeJaayein } from "./apni-dukaan-online-le-jaayein";
+// import { takeYourLocalShopOnline } from "./take-your-local-shop-online";
+// import { apniDukaanOnlineLeJaayein } from "./apni-dukaan-online-le-jaayein";
 import { thirtyDayScreenFreeLearningWorkbook } from "./30-day-screen-free-learning-workbook";
+import { yourFirstOnlineSale } from "./your-first-online-sale";
 
 /**
  * Registry of every published ebook. This is the ONLY file that needs a new
@@ -10,7 +11,8 @@ import { thirtyDayScreenFreeLearningWorkbook } from "./30-day-screen-free-learni
  * `lib/ebooks.ts`, which sources its data from this array.
  */
 export const allEbooks: Ebook[] = [
-  takeYourLocalShopOnline,
-  apniDukaanOnlineLeJaayein,
+  // takeYourLocalShopOnline,
+  // apniDukaanOnlineLeJaayein,
   thirtyDayScreenFreeLearningWorkbook,
+  yourFirstOnlineSale,
 ];

@@ -6,6 +6,7 @@ import { getAllEbooks, getEbookBySlug } from "@/lib/ebooks";
 import { siteConfig } from "@/lib/site";
 import { PriceTag } from "@/components/PriceTag";
 import { CheckoutForm } from "@/components/CheckoutForm";
+import { TrackCheckoutPageView } from "@/components/TrackCheckoutPageView";
 
 export function generateStaticParams() {
   return getAllEbooks().map((ebook) => ({ slug: ebook.slug }));
@@ -38,10 +39,15 @@ export default async function CheckoutPage({
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
+      <TrackCheckoutPageView
+        slug={ebook.slug}
+        title={ebook.title}
+        price={ebook.price}
+        currency={ebook.currency}
+      />
+
       <nav aria-label="Breadcrumb" className="mb-6 text-sm text-ink/70">
-        <Link href={`/ebooks/${ebook.slug}`} className="hover:text-forest-700">
-          {ebook.title}
-        </Link>
+        <span className="text-ink/80">{ebook.title}</span>
         {" / "}
         <span className="text-ink/80">Checkout</span>
       </nav>
@@ -64,6 +70,14 @@ export default async function CheckoutPage({
           <div className="mt-2">
             <PriceTag price={ebook.price} currency={ebook.currency} />
           </div>
+          <Link
+            href={`/ebooks/${ebook.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-block rounded-lg border border-forest-200 px-4 py-2 text-sm font-semibold text-forest-800 transition-colors hover:bg-forest-50"
+          >
+            View book details ↗
+          </Link>
         </div>
       </div>
 
